@@ -14,6 +14,7 @@ for x in admin_ids_raw.split(","):
         except ValueError:
             print(f"⚠️ Попередження: Неправильний формат ID адміністратора '{clean_x}' у файлі .env. ID має складатися лише з цифр.")
 DB_PATH = os.getenv("DB_PATH", "salon.db")
+TELEGRAM_PROXY = os.getenv("TELEGRAM_PROXY") or os.getenv("http_proxy")
 
 # ── Інформація про салон ──
 SALON_NAME = "✨ Beauty Studio"

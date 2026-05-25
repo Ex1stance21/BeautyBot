@@ -7,7 +7,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from config import BOT_TOKEN
+from config import BOT_TOKEN, TELEGRAM_PROXY
 from database.db import init_db
 from data.seed import seed_data
 from handlers import start, services, booking, my_bookings, contacts, portfolio, reviews, admin
@@ -24,8 +24,15 @@ logger = logging.getLogger(__name__)
 
 async def main():
     # ── Bot & Dispatcher ──
+    session = None
+    if TELEGRAM_PROXY:
+        from aiogram.client.session.aiohttp import AiohttpSession
+        session = AiohttpSession(proxy=TELEGRAM_PROXY)
+        logger.info(f"🔌 Using proxy: {TELEGRAM_PROXY}")
+
     bot = Bot(
         token=BOT_TOKEN,
+        session=session,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     dp = Dispatcher(storage=MemoryStorage())
