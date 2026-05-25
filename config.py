@@ -4,7 +4,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
-ADMIN_IDS = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
+ADMIN_IDS = []
+admin_ids_raw = os.getenv("ADMIN_IDS", "")
+for x in admin_ids_raw.split(","):
+    clean_x = x.strip()
+    if clean_x:
+        try:
+            ADMIN_IDS.append(int(clean_x))
+        except ValueError:
+            print(f"⚠️ Попередження: Неправильний формат ID адміністратора '{clean_x}' у файлі .env. ID має складатися лише з цифр.")
 DB_PATH = os.getenv("DB_PATH", "salon.db")
 
 # ── Інформація про салон ──
